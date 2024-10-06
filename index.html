@@ -59,32 +59,6 @@
             }
         }
 
-        /* Star animations around logo */
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle 2s infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        /* Position stars randomly around logo */
-        .star:nth-child(1) { top: 20px; left: 50px; animation-delay: 0.1s; }
-        .star:nth-child(2) { top: 60px; right: 70px; animation-delay: 0.3s; }
-        .star:nth-child(3) { top: 120px; left: 150px; animation-delay: 0.5s; }
-        .star:nth-child(4) { top: 200px; right: 100px; animation-delay: 0.7s; }
-        .star:nth-child(5) { top: 250px; left: 50px; animation-delay: 0.9s; }
-
         .gcse-search {
             width: 80%;
             max-width: 600px;
@@ -133,18 +107,13 @@
         <!-- Animated SpaceEngines logo -->
         <div class="logo">SpaceEngines</div>
 
-        <!-- Stars around the logo -->
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-
-        <div class="gcse-search"></div>
+        <!-- Custom Search Form -->
+        <form id="searchForm" onsubmit="redirectToSearch(event)">
+            <input type="text" id="searchInput" class="gsc-input" placeholder="Search for something..." required>
+            <button type="submit" class="gsc-search-button">🔍</button>
+        </form>
     </div>
 
-    <script async src="https://cse.google.com/cse.js?cx=d376f577c917f48ce"></script>
-    
     <script>
         // Starfield animation
         const canvas = document.getElementById('stars');
@@ -196,11 +165,19 @@
 
         createStars();
         animateStars();
+
+        // Redirect to a URL based on search query
+        function redirectToSearch(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            const searchQuery = document.getElementById('searchInput').value;
+            const baseUrl = "https://dexxell.github.io/SpaceEngines/";
+            const redirectUrl = baseUrl + encodeURIComponent(searchQuery);
+            window.location.href = redirectUrl; // Redirect to the new URL
+        }
     </script>
 </body>
 </html>
 
-</html>
 
 
 
