@@ -89,6 +89,18 @@
             background-color: #8e2de2; /* Lighter purple on hover */
         }
 
+        .result-link {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #6a0dad;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .result-link:hover {
+            color: #8e2de2; /* Change color on hover */
+        }
+
         /* Canvas for star animation */
         canvas {
             position: absolute;
@@ -112,6 +124,9 @@
             <input type="text" id="searchInput" class="gsc-input" placeholder="Search for something..." required>
             <button type="submit" class="gsc-search-button">🔍</button>
         </form>
+
+        <!-- Dynamic Link Display -->
+        <div id="resultContainer"></div>
     </div>
 
     <script>
@@ -166,22 +181,30 @@
         createStars();
         animateStars();
 
-        // Redirect to a URL based on search query
+        // Redirect to a URL based on search query and create a link
         function redirectToSearch(event) {
             event.preventDefault(); // Prevent default form submission behavior
             const searchQuery = document.getElementById('searchInput').value;
             const baseUrl = "https://dexxell.github.io/SpaceEngines/";
 
-            // Log the URL to check if it's correct
+            // Construct the redirect URL
             const redirectUrl = baseUrl + encodeURIComponent(searchQuery);
             console.log("Redirecting to:", redirectUrl); // Log the URL before redirection
-
-            // Perform the redirection
-            window.location.href = redirectUrl;
+            
+            // Create a dynamic link
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = ''; // Clear previous results
+            const linkElement = document.createElement('a');
+            linkElement.href = redirectUrl;
+            linkElement.className = 'result-link';
+            linkElement.target = '_blank'; // Open in a new tab
+            linkElement.textContent = `Go to: ${redirectUrl}`;
+            resultContainer.appendChild(linkElement); // Append the link to the result container
         }
     </script>
 </body>
 </html>
+
 
 
 
