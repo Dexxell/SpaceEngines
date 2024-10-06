@@ -171,8 +171,13 @@
             event.preventDefault(); // Prevent default form submission behavior
             const searchQuery = document.getElementById('searchInput').value;
             const baseUrl = "https://dexxell.github.io/SpaceEngines/";
+
+            // Log the URL to check if it's correct
             const redirectUrl = baseUrl + encodeURIComponent(searchQuery);
-            window.location.href = redirectUrl; // Redirect to the new URL
+            console.log("Redirecting to:", redirectUrl); // Log the URL before redirection
+
+            // Perform the redirection
+            window.location.href = redirectUrl;
         }
     </script>
 </body>
