@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space-Themed Search Engine</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            color: white;
+            background: linear-gradient(to top, #2c003e, #1a0030, #0d0018);
+            background-size: 200% 200%;
+            animation: moveBackground 10s infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* SpaceEngines logo */
+        .logo {
+            font-size: 60px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            animation: glow 2s ease-in-out infinite alternate;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 
+                         0 0 30px rgba(255, 255, 255, 0.6),
+                         0 0 40px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 
+                             0 0 30px rgba(255, 255, 255, 0.6),
+                             0 0 40px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 1), 
+                             0 0 40px rgba(255, 255, 255, 0.9),
+                             0 0 50px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        /* Star animations around logo */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Position stars randomly around logo */
+        .star:nth-child(1) { top: 20px; left: 50px; animation-delay: 0.1s; }
+        .star:nth-child(2) { top: 60px; right: 70px; animation-delay: 0.3s; }
+        .star:nth-child(3) { top: 120px; left: 150px; animation-delay: 0.5s; }
+        .star:nth-child(4) { top: 200px; right: 100px; animation-delay: 0.7s; }
+        .star:nth-child(5) { top: 250px; left: 50px; animation-delay: 0.9s; }
+
+        .gcse-search {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto 0;
+        }
+
+        .gcse-search input.gsc-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid #888;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .gcse-search button.gsc-search-button {
+            background-color: #6a0dad;
+            color: white;
+            border: 1px solid #888;
+            border-radius: 50%; /* Makes the button round */
+            padding: 10px;
+            width: 60px; /* Adjust size to ensure it's round */
+            height: 60px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .gcse-search button.gsc-search-button:hover {
+            background-color: #8e2de2; /* Lighter purple on hover */
+        }
+
+        /* Canvas for star animation */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="stars"></canvas>
+
+    <div class="search-container">
+        <!-- Animated SpaceEngines logo -->
+        <div class="logo">SpaceEngines</div>
+
+        <!-- Stars around the logo -->
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+
+        <div class="gcse-search"></div>
+    </div>
+
+    <script async src="https://cse.google.com/cse.js?cx=d376f577c917f48ce"></script>
+    
+    <script>
+        // Starfield animation
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createStars() {
+            for (let i = 0; i < 200; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5,
+                    velocity: Math.random() * 0.5,
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+
+            for (let i = 0; i < stars.length; i++) {
+                let star = stars[i];
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                star.y += star.velocity;
+
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+            }
+        }
+
+        function animateStars() {
+            drawStars();
+            requestAnimationFrame(animateStars);
+        }
+
+        createStars();
+        animateStars();
+    </script>
+</body>
+</html>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
